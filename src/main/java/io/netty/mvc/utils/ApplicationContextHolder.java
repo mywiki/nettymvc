@@ -6,7 +6,9 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.mock.web.MockServletConfig;
+import org.springframework.mock.web.MockServletContext;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -36,7 +38,20 @@ public class ApplicationContextHolder {
             logger.info("Spring container for initial completion");
         }
     }
-
+    
+    public static final void init2() throws ServletException {
+    	MockServletContext servletContext = new MockServletContext();
+    	MockServletConfig servletConfig = new MockServletConfig(servletContext);
+    	AnnotationConfigWebApplicationContext wac = new AnnotationConfigWebApplicationContext();
+		wac.setServletContext(servletContext);
+		wac.setServletConfig(servletConfig);
+    	wac.register(NettyWebConfig.class);
+    	wac.refresh();
+    	dispatcherServlet = new DispatcherServlet(wac);
+    	dispatcherServlet.init(servletConfig);
+        logger.info("Spring container for initial completion");
+    }
+    
     /**
      * Spring容器
      * @return
