@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages="org.inull.netty4.springmvc")
+@ComponentScan(basePackages="io.netty.mvc")
 public class NettyWebConfig extends WebMvcConfigurerAdapter {
 	
 }
